@@ -4,12 +4,6 @@ require_relative '../lib/card_deck.rb'
 require_relative '../lib/card.rb'
 require 'rspec'
 
-def deck_has_card?(deck, color, value)
-  deck.new_deck.any? do |card|
-    card.color == color && card.value == value
-  end
-end
-
 def count_cards_of_color(deck, color)
   deck.new_deck.count do |card|
     card.color == color
@@ -70,15 +64,15 @@ describe CardDeck do
   end
 
   it 'has a random color random number card' do
-    expect(deck_has_card?(card_deck, :blue, 8)).to eq(true)
+    expect(deck_has_card?(card_deck.new_deck, :blue, 8)).to eq(true)
   end
 
   it 'has a random color random action card' do
-    expect(deck_has_card?(card_deck, :red, :draw_two)).to eq(true)
+    expect(deck_has_card?(card_deck.new_deck, :red, :draw_two)).to eq(true)
   end
 
   it 'has a random wild card' do
-    expect(deck_has_card?(card_deck, :black, :wild_draw_four)).to eq(true)
+    expect(deck_has_card?(card_deck.new_deck, :black, :wild_draw_four)).to eq(true)
   end
 
   it 'shuffles cards in new deck' do

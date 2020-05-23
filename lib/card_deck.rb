@@ -19,11 +19,12 @@ class CardDeck
   def create_number_cards(color)
     number_cards = []
     10.times do |num|
-      card = Card.new(color, num)
       if num.zero?
+        card = Card.new(color, num)
         number_cards.push(card)
       else
         2.times do
+          card = Card.new(color, num)
           number_cards.push(card)
         end
       end
@@ -36,8 +37,8 @@ class CardDeck
     action_cards = []
 
     action_card_types.each do |type|
-      card = Card.new(color, type)
       2.times do
+        card = Card.new(color, type)
         action_cards.push(card)
       end
     end
@@ -49,8 +50,8 @@ class CardDeck
     wild_cards = []
 
     wild_card_types.each do |type|
-      card = Card.new(:black, type)
       4.times do
+        card = Card.new(:black, type)
         wild_cards.push(card)
       end
     end

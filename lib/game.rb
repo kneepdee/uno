@@ -3,11 +3,12 @@
 require_relative './card_deck'
 
 class Game
-  attr_reader :players, :card_deck
+  attr_reader :players, :card_deck, :current_card
 
   def initialize
     @players = []
     @card_deck = CardDeck.new.new_deck
+    @current_card = nil
   end
 
   def add_player(player)
@@ -20,5 +21,9 @@ class Game
     @players.each do |player|
       player.cards = @card_deck.slice!(0, 7)
     end
+  end
+
+  def draw_first_card
+    @current_card = @card_deck.slice!(0)
   end
 end

@@ -2,11 +2,24 @@
 
 require_relative '../lib/game.rb'
 require_relative '../lib/player.rb'
+require_relative '../lib/card.rb'
 require 'rspec'
 
-describe Game do
+def setup_game
+  # this helper method creates new game instance,
+  # adds 2 players to game and deals cards to them.
   game = Game.new
-  
+  player1 = Player.new('Jordan')
+  player2 = Player.new('Mike')
+  game.add_player(player1)
+  game.add_player(player2)
+  game.deal_cards
+  game
+end
+
+describe Game do
+  let(:game) { Game.new }
+
   it 'enables adding players to game' do
     player1 = Player.new('Jordan')
     player2 = Player.new('Mike')
@@ -37,6 +50,24 @@ describe Game do
       game.deal_cards
 
       expect(player1.cards.length).to eq(7)
+    end
+  end
+
+  describe 'draw_first_card' do
+    game = setup_game
+    game.draw_first_card
+
+    it 'removes 1 card from card deck' do
+      expect(game.card_deck.length).to eq(93)
+    end
+
+    it 'sets the current card' do
+      expect(game.current_card).to be_instance_of(Card)
+    end
+
+    it 'ensures the deck does not include the current card' do
+      current_card = game.current_card
+      expect(game.card_deck).to_not include(current_card)
     end
   end
 end

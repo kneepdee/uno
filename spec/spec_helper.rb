@@ -98,3 +98,9 @@ RSpec.configure do |config|
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
 end
+
+def deck_has_card?(deck, color, value)
+  deck.any? do |card|
+    card.color == color && card.value == value
+  end
+end
