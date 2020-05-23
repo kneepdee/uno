@@ -10,6 +10,7 @@ class Game
     @card_deck = CardDeck.new.new_deck
     @current_card = nil
     @current_player = nil
+    @discarded_cards = []
   end
 
   def add_player(player)

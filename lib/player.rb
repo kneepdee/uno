@@ -7,4 +7,13 @@ class Player
     @name = name
     @cards = []
   end
+
+  def draw_card(card_deck, discarded_cards)
+    if card_deck.length.zero?
+      card_deck.append(discarded_cards.shuffle).flatten!
+      discarded_cards.clear
+    end
+
+    @cards << card_deck.slice!(0)
+  end
 end

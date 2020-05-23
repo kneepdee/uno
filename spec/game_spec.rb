@@ -70,7 +70,7 @@ describe Game do
       expect(game.card_deck).to_not include(current_card)
     end
   end
-  
+
   describe 'pick_first_player' do
     game = setup_game
     game.pick_first_player
