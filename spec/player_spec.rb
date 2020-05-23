@@ -64,4 +64,47 @@ describe Player do
       expect(player.can_play?(current_card)).to eq(true)
     end
   end
+
+  describe 'can_play_card?' do
+    it 'returns true when card is of current color' do
+      current_card = Card.new(:blue, 7)
+      card = Card.new(:blue, 4)
+      expect(player.can_play_card?(card, current_card)).to eq(true)
+    end
+
+    it 'returns true when card is of current value' do
+      current_card = Card.new(:blue, 7)
+      card = Card.new(:green, 7)
+      expect(player.can_play_card?(card, current_card)).to eq(true)
+    end
+
+    it 'returns true when player has a wild card' do
+      current_card = Card.new(:blue, 7)
+      card = Card.new(:black, :wild_draw_four)
+      expect(player.can_play_card?(card, current_card)).to eq(true)
+    end
+
+    it 'returns false when trying to play card of different color and value' do
+      current_card = Card.new(:blue, 7)
+      card = Card.new(:yellow, :draw_two)
+      expect(player.can_play_card?(card, current_card)).to eq(false)
+    end
+  end
+
+  describe 'play_card' do
+    it 'removes card from player cards' do
+      current_card = Card.new(:blue, 7)
+      card = Card.new(:green, 7)
+      player.cards = [card]
+      player.play_card(player.cards[0], current_card)
+      expect(player.cards.length).to eq(0)
+    end
+
+    it 'returns the card to be set as new current card' do
+      current_card = Card.new(:blue, 7)
+      card = Card.new(:green, 7)
+      player.cards = [card]
+      expect(player.play_card(player.cards[0], current_card)).to eq(card)
+    end
+  end
 end

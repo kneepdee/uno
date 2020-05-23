@@ -24,4 +24,14 @@ class Player
         card.color == :black
     end
   end
+
+  def can_play_card?(card, current_card)
+    card.color == current_card.color ||
+      card.value == current_card.value ||
+      card.color == :black
+  end
+
+  def play_card(card, current_card)
+    @cards.delete(card)
+  end
 end
