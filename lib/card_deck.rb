@@ -11,7 +11,7 @@ class CardDeck
       deck.push(create_action_cards(color))
     end
     deck.push(create_wild_cards)
-    deck.flatten
+    deck.flatten.shuffle
   end
 
   private

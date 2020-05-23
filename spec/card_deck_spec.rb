@@ -22,6 +22,10 @@ def count_cards_of_value(deck, value)
   end
 end
 
+def index_of_card(deck, color, value)
+  deck.new_deck.index { |card| card.color == color && card.value == value }
+end
+
 describe CardDeck do
   card_deck = CardDeck.new
 
@@ -75,5 +79,15 @@ describe CardDeck do
 
   it 'has a random wild card' do
     expect(deck_has_card?(card_deck, :black, :wild_draw_four)).to eq(true)
+  end
+
+  it 'shuffles cards in new deck' do
+    deck_a = CardDeck.new
+    deck_b = CardDeck.new
+    index_of_card_in_first_deck = index_of_card(deck_a, :black, :wild_draw_four)
+    index_of_card_in_second_deck = index_of_card(deck_b, :black, :wild_draw_four)
+
+    # There's a slight chance of this test being flaky when it happens that both decks shuffle the card to the same position.
+    expect(index_of_card_in_first_deck).not_to eq(index_of_card_in_second_deck)
   end
 end
