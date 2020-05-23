@@ -44,4 +44,24 @@ describe Player do
       end
     end
   end
+
+  describe 'can_play?' do
+    it 'returns true when player has a card of current color' do
+      current_card = Card.new(:blue, 7)
+      player.cards = [Card.new(:blue, 4)]
+      expect(player.can_play?(current_card)).to eq(true)
+    end
+
+    it 'returns true when player has a card of current value' do
+      current_card = Card.new(:blue, 7)
+      player.cards = [Card.new(:green, 7)]
+      expect(player.can_play?(current_card)).to eq(true)
+    end
+
+    it 'returns true when player has a wild card' do
+      current_card = Card.new(:blue, 7)
+      player.cards = [Card.new(:black, :wild_draw_four)]
+      expect(player.can_play?(current_card)).to eq(true)
+    end
+  end
 end
