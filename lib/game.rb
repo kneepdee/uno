@@ -2,9 +2,10 @@
 
 require_relative './card_deck'
 require_relative './player'
+require 'colorize'
 
 class Game
-  attr_reader :players, :card_deck, :current_card, :current_player
+  attr_reader :players, :card_deck, :current_card, :current_player, :discarded_cards
 
   def initialize
     @players = []
@@ -35,6 +36,8 @@ class Game
   end
 end
 
+# PLAYING THE GAME
+
 my_game = Game.new
 
 sara = Player.new('sara')
@@ -47,25 +50,59 @@ my_game.deal_cards
 my_game.draw_first_card
 my_game.pick_first_player
 
-def announce_current_card_and_player(game)
-  puts "Current card: #{game.current_card.color} #{game.current_card.value}"
-  puts "It's #{game.current_player.name}'s turn"
-  puts ' '
+def announce_current_card(game)
+  puts "Current card: #{game.current_card.color} #{game.current_card.value}".green
+  puts ''
 end
 
-announce_current_card_and_player(my_game)
+def announce_current_player(game)
+  puts "It's #{game.current_player.name}'s turn".green
+  puts ''
+end
 
-puts "you have following cards:"
-my_game.current_player.cards.map { |card|  puts "#{card.color} #{card.value}" }
-puts ' '
+def list_current_player_cards(game)
+  game.current_player.cards.each_with_index.map do |card, index|
+    puts "#{index} #{card.color} #{card.value}".yellow
+  end
+  puts ''
+end
 
-puts "what should we do #{my_game.current_player.name}? play a card or draw one?"
+announce_current_card(my_game)
+announce_current_player(my_game)
+puts 'They have the following cards:'
+list_current_player_cards(my_game)
+
+puts "what should we do, #{my_game.current_player.name}? play a card or draw one?".blue
 action = gets.chomp
+puts ''
 
 if action == 'play'
-  puts 'we wanna play a card'
-else
-  puts 'we wanna draw a card'
+  if my_game.current_player.can_play?(my_game.current_card)
+    puts 'you actually do happen to have cards you can play'
+    puts ' '
+    puts 'which of your cards you want to play?'
+    puts 'enter the index of the card'
+    list_current_player_cards(my_game)
+
+    card_index = gets.chomp.to_i
+    if my_game.current_player.can_play_card?(my_game.current_player.cards[card_index], my_game.current_card)
+      puts 'you can play that card'
+    else
+      puts 'you can not play that card'
+    end
+  else
+    puts 'you dont have any cards you can play' 
+  end
 end
+
+if action == 'draw'
+  my_game.current_player.draw_card(my_game.card_deck, my_game.discarded_cards)
+  puts "#{my_game.current_player.name} picked up a new card"
+  puts ' '
+  puts 'they now have: '
+  list_current_player_cards(my_game)
+  puts ''
+end
+
 
 
